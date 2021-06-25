@@ -36,7 +36,7 @@
 	},
 	"devDependencies": {
 		"@jest-runner/electron": "^3.0.0",
-		"@k8slens/extensions": "4.0.8",
+		"@k8slens/extensions": "^4.2.5",
 		"@testing-library/jest-dom": "^5.11.6",
 		"@testing-library/react": "^11.2.2",
 		"@types/d3-force": "^2.1.0",

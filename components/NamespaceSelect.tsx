@@ -8,7 +8,7 @@ import { Component, K8sApi, Util } from "@k8slens/extensions";
 
 const namespaceStore = K8sApi.apiManager.getStore(K8sApi.namespacesApi) as K8sApi.NamespaceStore;
 
-export const selectedNamespaces = observable.set(namespaceStore.contextNs);
+export const selectedNamespaces = observable.set(namespaceStore.contextNamespaces);
 
 interface Props {
   className?: string;

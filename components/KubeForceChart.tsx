@@ -390,9 +390,19 @@ export class KubeForceChart extends React.Component<KubeForceChartProps, State> 
       // search for container links
       this.nodes.filter(node => node.kind === "Pod").forEach((podNode) => {
         const pod = (podNode.object as K8sApi.Pod)
+        
         pod.getContainers().forEach((container) => {
+
           container.env?.forEach((env) => {
             const secretName = env.valueFrom?.secretKeyRef?.name;
+            if (secretName == secret.getName()) {
+              this.addLink({
+                source: podNode.id, target: secretNode.id
+              })
+            }
+          })
+          container.envFrom?.forEach((envFrom) => {
+            const secretName = envFrom.secretRef?.name;
             if (secretName == secret.getName()) {
               this.addLink({
                 source: podNode.id, target: secretNode.id
@@ -594,6 +604,16 @@ export class KubeForceChart extends React.Component<KubeForceChartProps, State> 
             const configMapNode = this.generateNode(configMap);
             this.addLink({
               source: podNode.id, target: configMapNode.id
+            })
+          }
+        }
+        const secretName = envFrom.secretRef?.name;
+        if (secretName) {
+          const secret = this.secretStore.getByName(secretName, pod.getNs());
+          if (secret) {
+            const secretNode = this.generateNode(secret);
+            this.addLink({
+              source: podNode.id, target: secretNode.id
             })
           }
         }
